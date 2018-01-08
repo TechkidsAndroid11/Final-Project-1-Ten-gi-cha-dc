@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="8dp"
-    tools:context="com.example.haihm.shelf.activity.DangSpRv">
+    tools:context="com.example.haihm.shelf.activity.DangSpRvActivity">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_anh_sp_rv"
         android:layout_width="match_parent"

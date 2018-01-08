@@ -10,7 +10,7 @@ import android.widget.Spinner;
 
 import com.example.haihm.shelf.R;
 
-public class DangSpDG extends AppCompatActivity {
+public class DangSpDGActivity extends AppCompatActivity {
     EditText etTenSP,etgiaSP,etDiaC,etMoTaSP,etBuocG;
     Spinner spLoaiSP;
     Button btRaoBan;
