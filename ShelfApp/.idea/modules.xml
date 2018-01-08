@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ShelfApp.iml" filepath="$PROJECT_DIR$/ShelfApp.iml" />
+      <module fileurl="file://D:\Project\Final-Project-1-Ten-gi-cha-dc\ShelfApp\ShelfApp.iml" filepath="D:\Project\Final-Project-1-Ten-gi-cha-dc\ShelfApp\ShelfApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Project\Final-Project-1-Ten-gi-cha-dc\ShelfApp\app\app.iml" filepath="D:\Project\Final-Project-1-Ten-gi-cha-dc\ShelfApp\app\app.iml" />
     </modules>
   </component>
 </project>
