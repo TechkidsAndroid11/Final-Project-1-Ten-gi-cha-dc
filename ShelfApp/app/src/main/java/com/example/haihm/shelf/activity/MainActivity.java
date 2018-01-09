@@ -1,17 +1,27 @@
 package com.example.haihm.shelf.activity;
 
+import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Base64;
 import android.util.Log;
 
 import com.example.haihm.shelf.R;
+import com.example.haihm.shelf.adapters.MainPagerAdapter;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MainActivity extends AppCompatActivity {
     SearchView searchView;
     TabLayout tlBottomBar;
+    ViewPager vpMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +32,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
         tlBottomBar = findViewById(R.id.tl_bottom_bar);
+        vpMain = findViewById(R.id.vp_main_activity);
 
         setupTabLayout();
+        MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+        vpMain.setAdapter(mainPagerAdapter);
+        vpMain.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tlBottomBar));
     }
 
     private void setupTabLayout() {
@@ -34,7 +48,28 @@ public class MainActivity extends AppCompatActivity {
         tlBottomBar.getTabAt(0).setText("Rao vặt");
         tlBottomBar.getTabAt(1).setText("Đấu giá");
         tlBottomBar.getTabAt(2).setText("Tôi");
+
+        tlBottomBar.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                vpMain.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
+
+
+//
 
 
 }
