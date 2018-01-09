@@ -10,9 +10,9 @@
         android:layout_margin="5dp"
         android:orientation="vertical">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_anh_sp_rv"
+            android:id="@+id/rv_anh_sp_dg"
             android:layout_width="match_parent"
-            android:layout_height="100dp"/>
+            android:layout_height="150dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
