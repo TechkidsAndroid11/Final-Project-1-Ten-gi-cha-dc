@@ -1,8 +1,11 @@
-package com.example.haihm.shelf;
+package com.example.haihm.shelf.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.example.haihm.shelf.fragments.LoginFragment;
+import com.example.haihm.shelf.fragments.RegisterFragment;
 
 /**
  * Created by Son Hoang on 1/8/2018.

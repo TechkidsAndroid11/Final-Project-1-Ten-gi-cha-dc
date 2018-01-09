@@ -1,44 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="10"
-    tools:context="com.example.haihm.shelf.MainActivity">
+    tools:context="com.example.haihm.shelf.activity.MainActivity">
 
-    <RelativeLayout
-        android:layout_weight="0.8"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="56dp">
+
+        <ImageView
+            android:id="@+id/iv_shopping_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/pad_def"
+            android:src="@drawable/ic_add_shopping_cart_black_24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.v7.widget.SearchView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:id="@+id/sv_search_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/pad_def"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_shopping_cart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
-    <view
-        android:background="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"/>
+    </android.support.constraint.ConstraintLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
-        android:layout_weight="8.0"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tl_bottom_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-    <view
-        android:background="#000000"
-        android:layout_width="match_parent"
-        android:layout_height="0.7dp"/>
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_weight="1.2"
-        android:layout_height="0dp"/>
+        android:id="@+id/tl_bottom_bar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

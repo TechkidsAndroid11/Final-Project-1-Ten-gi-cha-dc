@@ -1,9 +1,12 @@
-package com.example.haihm.shelf;
+package com.example.haihm.shelf.activity;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.haihm.shelf.adapters.LoginPagerAdapter;
+import com.example.haihm.shelf.R;
 
 public class LoginActivity extends AppCompatActivity {
     TabLayout tlLogin;
