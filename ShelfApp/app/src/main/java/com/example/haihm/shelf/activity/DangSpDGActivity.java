@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,25 +22,35 @@ import android.widget.Spinner;
 import com.example.haihm.shelf.R;
 import com.example.haihm.shelf.adapter.ThemAnhSPAdapter;
 import com.example.haihm.shelf.event.OnClickAddPhotoEvent;
+import com.example.haihm.shelf.model.SanPhamDauGia;
 import com.example.haihm.shelf.utils.ImageUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DangSpDGActivity extends AppCompatActivity {
     private static final String TAG = "DangSpDGActivity";
     EditText etTenSP,etgiaSP,etDiaC,etMoTaSP,etBuocG;
     Spinner spLoaiSP;
-    Button btRaoBan;
+    Button btDG;
     RadioButton rb_3h,rb_6h,rb_12h,rb_1ngay;
     String []loaiSP;
     List<String> lanhSP;
     RecyclerView recyclerView;
     ThemAnhSPAdapter anhSPAdapter;
+
+    //
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +70,7 @@ public class DangSpDGActivity extends AppCompatActivity {
         rb_6h = findViewById(R.id.rb_6h);
         rb_12h = findViewById(R.id.rb_12h);
         rb_1ngay = findViewById(R.id.rb_1ngay);
-        btRaoBan = findViewById(R.id.bt_rao_ban);
+        btDG = findViewById(R.id.bt_dau_gia);
         recyclerView = findViewById(R.id.rv_anh_sp_dg);
         loaiSP = getResources().getStringArray(R.array.loai_sp);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,loaiSP);
@@ -73,7 +84,36 @@ public class DangSpDGActivity extends AppCompatActivity {
         anhSPAdapter = new ThemAnhSPAdapter(lanhSP,this);
         recyclerView.setAdapter(anhSPAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("DauGia");
+
+        btDG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DangSPDG();
+            }
+        });
     }
+
+    private void DangSPDG() {
+        double giaSP = Double.parseDouble(etgiaSP.getText().toString());
+        double buocG = Double.parseDouble(etBuocG.getText().toString());
+        String loaiSP = spLoaiSP.getSelectedItem().toString();
+        int tgianDG = 0;
+        if(rb_3h.isChecked()) tgianDG = 3;
+        if(rb_6h.isChecked()) tgianDG = 6;
+        if(rb_12h.isChecked()) tgianDG = 12;
+        if(rb_1ngay.isChecked()) tgianDG = 24;
+        SanPhamDauGia sanPhamDauGia = new SanPhamDauGia("",etTenSP.getText().toString(),
+                lanhSP,giaSP,
+                etMoTaSP.getText().toString(),
+                loaiSP,buocG,0.0,tgianDG,new SanPhamDauGia.NguoiMua());
+
+        databaseReference.child(loaiSP).push().setValue(sanPhamDauGia);
+        Log.d(TAG, "DangSPDG: ");
+    }
+
     @Subscribe(sticky = true)
     public void OnReceivedOnClickAddPhotoEvent(OnClickAddPhotoEvent onClickAddPhotoEvent){
         selectFuntion();

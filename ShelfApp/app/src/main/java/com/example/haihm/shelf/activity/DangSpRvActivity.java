@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +27,10 @@ import android.widget.Spinner;
 import com.example.haihm.shelf.R;
 import com.example.haihm.shelf.adapter.ThemAnhSPAdapter;
 import com.example.haihm.shelf.event.OnClickAddPhotoEvent;
+import com.example.haihm.shelf.model.SanPhamRaoVat;
 import com.example.haihm.shelf.utils.ImageUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,6 +48,9 @@ public class DangSpRvActivity extends AppCompatActivity {
     List<String> lanhSP;
     RecyclerView recyclerView;
     ThemAnhSPAdapter anhSPAdapter;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +90,29 @@ public class DangSpRvActivity extends AppCompatActivity {
         anhSPAdapter = new ThemAnhSPAdapter(lanhSP,this);
         recyclerView.setAdapter(anhSPAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
+        //
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("RaoVat");
+
+        btRaoBan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DangSp();
+            }
+        });
     }
+
+    private void DangSp() {
+        double giaSP = Double.parseDouble(etgiaSP.getText().toString());
+        String loaiSP = spLoaiSP.getSelectedItem().toString();
+        SanPhamRaoVat sanPhamRaoVat = new SanPhamRaoVat("",etTenSP.getText().toString(),lanhSP,
+                giaSP,
+                etMoTaSP.getText().toString(),loaiSP);
+
+        databaseReference.child(loaiSP).push().setValue(sanPhamRaoVat);
+    }
+
     @Subscribe(sticky = true)
     public void OnReceivedOnClickAddPhotoEvent(OnClickAddPhotoEvent onClickAddPhotoEvent){
         selectFuntion();
