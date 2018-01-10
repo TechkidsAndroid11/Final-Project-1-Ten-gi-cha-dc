@@ -1,6 +1,5 @@
 package com.example.haihm.shelf.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,20 +7,27 @@ import java.util.List;
  */
 
 public class SanPhamRaoVat {
-    public String idSP;
+    public String idNB;
     public String tenSP;
     public List<String> anhSP ;
     public double giaSP;
     public String motaSP;
     public String loaiSP;
+    public String hoTenNB;
+    public String sdtNB;
+    public String diaCNB;
 
-    public SanPhamRaoVat(String idSP, String tenSP, List<String> anhSP, double giaSP, String motaSP, String loaiSP) {
-        this.idSP = idSP;
+    public SanPhamRaoVat(String idNB, String tenSP, List<String> anhSP, double giaSP,
+                         String motaSP, String loaiSP, String hoTenNB, String sdtNB, String diaCNB) {
+        this.idNB = idNB;
         this.tenSP = tenSP;
         this.anhSP = anhSP;
         this.giaSP = giaSP;
         this.motaSP = motaSP;
         this.loaiSP = loaiSP;
+        this.hoTenNB = hoTenNB;
+        this.sdtNB = sdtNB;
+        this.diaCNB = diaCNB;
     }
 
     public SanPhamRaoVat() {

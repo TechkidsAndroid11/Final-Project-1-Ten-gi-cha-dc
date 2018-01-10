@@ -22,7 +22,9 @@ import android.widget.Spinner;
 import com.example.haihm.shelf.R;
 import com.example.haihm.shelf.adapter.ThemAnhSPAdapter;
 import com.example.haihm.shelf.event.OnClickAddPhotoEvent;
+import com.example.haihm.shelf.event.OnClickAddSanPhamEvent;
 import com.example.haihm.shelf.model.SanPhamDauGia;
+import com.example.haihm.shelf.model.UserModel;
 import com.example.haihm.shelf.utils.ImageUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -47,7 +49,7 @@ public class DangSpDGActivity extends AppCompatActivity {
     List<String> lanhSP;
     RecyclerView recyclerView;
     ThemAnhSPAdapter anhSPAdapter;
-
+    UserModel userModel;
     //
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -84,7 +86,9 @@ public class DangSpDGActivity extends AppCompatActivity {
         anhSPAdapter = new ThemAnhSPAdapter(lanhSP,this);
         recyclerView.setAdapter(anhSPAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-
+        //
+        userModel =  new UserModel();
+        //
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("DauGia");
 
@@ -105,9 +109,10 @@ public class DangSpDGActivity extends AppCompatActivity {
         if(rb_6h.isChecked()) tgianDG = 6;
         if(rb_12h.isChecked()) tgianDG = 12;
         if(rb_1ngay.isChecked()) tgianDG = 24;
-        SanPhamDauGia sanPhamDauGia = new SanPhamDauGia("",etTenSP.getText().toString(),
+        SanPhamDauGia sanPhamDauGia = new SanPhamDauGia(userModel.id,etTenSP.getText().toString(),
                 lanhSP,giaSP,
                 etMoTaSP.getText().toString(),
+                userModel.hoten,userModel.sdt,userModel.diaC,
                 loaiSP,buocG,0.0,tgianDG,new SanPhamDauGia.NguoiMua());
 
         databaseReference.child(loaiSP).push().setValue(sanPhamDauGia);
@@ -117,6 +122,10 @@ public class DangSpDGActivity extends AppCompatActivity {
     @Subscribe(sticky = true)
     public void OnReceivedOnClickAddPhotoEvent(OnClickAddPhotoEvent onClickAddPhotoEvent){
         selectFuntion();
+    }
+    @Subscribe(sticky = true)
+    public void OnReceivedOnClickAddSanPhamEvent(OnClickAddSanPhamEvent onClickAddSanPhamEvent){
+        userModel = onClickAddSanPhamEvent.userModel;
     }
     private void selectFuntion() {
         final String[] item = {"Chụp ảnh", "Mở Bộ sưu tập", "Huỷ"};

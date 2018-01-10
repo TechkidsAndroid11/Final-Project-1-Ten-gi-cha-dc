@@ -16,8 +16,10 @@ public class SanPhamDauGia extends SanPhamRaoVat {
     public SanPhamDauGia() {
     }
 
-    public SanPhamDauGia(String idSP, String tenSP, List<String> anhSP, double giaSP, String motaSP, String loaiSP, double buocGia, double giaCaoNhat, int thoiGian, NguoiMua nguoiMua) {
-        super(idSP, tenSP, anhSP, giaSP, motaSP, loaiSP);
+    public SanPhamDauGia(String idNB, String tenSP, List<String> anhSP, double giaSP, String motaSP, String loaiSP,
+                         String hoTenNB, String sdtNB, String diaCNB,
+                         double buocGia, double giaCaoNhat, int thoiGian, NguoiMua nguoiMua) {
+        super(idNB, tenSP, anhSP, giaSP, motaSP, loaiSP, hoTenNB, sdtNB, diaCNB);
         this.buocGia = buocGia;
         this.giaCaoNhat = giaCaoNhat;
         this.thoiGian = thoiGian;

@@ -27,7 +27,9 @@ import android.widget.Spinner;
 import com.example.haihm.shelf.R;
 import com.example.haihm.shelf.adapter.ThemAnhSPAdapter;
 import com.example.haihm.shelf.event.OnClickAddPhotoEvent;
+import com.example.haihm.shelf.event.OnClickAddSanPhamEvent;
 import com.example.haihm.shelf.model.SanPhamRaoVat;
+import com.example.haihm.shelf.model.UserModel;
 import com.example.haihm.shelf.utils.ImageUtils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -48,6 +50,7 @@ public class DangSpRvActivity extends AppCompatActivity {
     List<String> lanhSP;
     RecyclerView recyclerView;
     ThemAnhSPAdapter anhSPAdapter;
+    UserModel userModel;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -90,7 +93,8 @@ public class DangSpRvActivity extends AppCompatActivity {
         anhSPAdapter = new ThemAnhSPAdapter(lanhSP,this);
         recyclerView.setAdapter(anhSPAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
-
+        //
+        userModel = new UserModel();
         //
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("RaoVat");
@@ -106,9 +110,10 @@ public class DangSpRvActivity extends AppCompatActivity {
     private void DangSp() {
         double giaSP = Double.parseDouble(etgiaSP.getText().toString());
         String loaiSP = spLoaiSP.getSelectedItem().toString();
-        SanPhamRaoVat sanPhamRaoVat = new SanPhamRaoVat("",etTenSP.getText().toString(),lanhSP,
+        SanPhamRaoVat sanPhamRaoVat = new SanPhamRaoVat(userModel.id,etTenSP.getText().toString(),lanhSP,
                 giaSP,
-                etMoTaSP.getText().toString(),loaiSP);
+                etMoTaSP.getText().toString(),loaiSP,
+                userModel.hoten,userModel.sdt,userModel.diaC);
 
         databaseReference.child(loaiSP).push().setValue(sanPhamRaoVat);
     }
@@ -116,6 +121,10 @@ public class DangSpRvActivity extends AppCompatActivity {
     @Subscribe(sticky = true)
     public void OnReceivedOnClickAddPhotoEvent(OnClickAddPhotoEvent onClickAddPhotoEvent){
         selectFuntion();
+    }
+    @Subscribe(sticky = true)
+    public void OnReceivedOnClickAddSanPhamEvent(OnClickAddSanPhamEvent onClickAddSanPhamEvent){
+        userModel = onClickAddSanPhamEvent.userModel;
     }
     private void selectFuntion() {
         final String[] item = {"Chụp ảnh", "Mở Bộ sưu tập", "Huỷ"};
