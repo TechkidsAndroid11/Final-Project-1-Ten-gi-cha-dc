@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 
 import com.example.haihm.shelf.R;
 import com.example.haihm.shelf.adapters.MainPagerAdapter;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
     TabLayout tlBottomBar;
     ViewPager vpMain;
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
         tlBottomBar = findViewById(R.id.tl_bottom_bar);
+        constraintLayout = findViewById(R.id.constraintLayout);
         vpMain = findViewById(R.id.vp_main_activity);
 
         setupTabLayout();
@@ -53,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 vpMain.setCurrentItem(tab.getPosition());
+                if(tab.getPosition() == 2){
+                    constraintLayout.setVisibility(View.GONE);
+                }else {
+                    constraintLayout.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

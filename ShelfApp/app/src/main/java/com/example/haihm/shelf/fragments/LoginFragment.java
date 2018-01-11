@@ -1,11 +1,7 @@
 package com.example.haihm.shelf.fragments;
 
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.haihm.shelf.activity.MainActivity;
 import com.example.haihm.shelf.model.UserModel;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -28,7 +25,6 @@ import com.facebook.GraphRequestAsyncTask;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.LoggingBehavior;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
@@ -48,7 +44,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,17 +62,18 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     private static final String TAG = "LoginFragment";
     AccessTokenTracker mAccessTokenTracker;
     public GoogleApiClient mGoogleApiClient;
-    public final int RC_SIGN_IN=1;
+    public final int RC_SIGN_IN = 1;
     CallbackManager callbackManager;
     FirebaseAuth mAuth;
     LoginManager mLoginManager;
-    Button btnLogin,btnLoginGG;
-    public String cover,name,phone,address;
+    Button btnLoginFacebook, btnLoginGoogle, btnLoginApp;
+    public String cover, name, phone, address;
     String avatar;
     UserModel.Rate rate;
-    String imgCover="";
+    String imgCover = "";
     DatabaseReference databaseReference;
     FirebaseDatabase firebaseDatabase;
+
     public LoginFragment() {
         // Required empty public constructor
 
@@ -93,11 +89,13 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
         return view;
     }
+
     public void setupUI(View view) {
-        btnLogin = view.findViewById(R.id.bt_register_with_facebook);
+        btnLoginApp = view.findViewById(R.id.bt_login);
+        btnLoginFacebook = view.findViewById(R.id.bt_register_with_facebook);
         mLoginManager = LoginManager.getInstance();
         callbackManager = CallbackManager.Factory.create();
-        btnLoginGG = view.findViewById(R.id.bt_register_with_mail);
+        btnLoginGoogle = view.findViewById(R.id.bt_register_with_mail);
         setupFacebookStuff();
         updateFacebookButtonUI();
         mAuth = FirebaseAuth.getInstance();
@@ -111,47 +109,55 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         // kết nối với GOogle APi Client
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .enableAutoManage(getActivity(), this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        btnLoginFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 handleFacebookLogin();
             }
         });
-        btnLoginGG.setOnClickListener(new View.OnClickListener() {
+
+        btnLoginApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        btnLoginGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signIn();
             }
         });
     }
+
     private void handleFacebookAccessToken(AccessToken accessToken) {
         AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken.getToken());
         mAuth.signInWithCredential(authCredential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 // đăng nhập thành công
-                if(task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     FirebaseUser user = task.getResult().getUser();
                     Toast.makeText(getActivity(), "OKKKKKKKK", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
                     getCover();
-                    Log.d(TAG, "onComplete: "+imgCover);
-                    avatar= String.valueOf(user.getPhotoUrl());
+                    Log.d(TAG, "onComplete: " + imgCover);
+                    avatar = String.valueOf(user.getPhotoUrl());
                     name = user.getDisplayName();
                     phone = user.getPhoneNumber();
-                    UserModel userModel = new UserModel(user.getUid(),avatar,imgCover,name,phone,address,rate);
+                    UserModel userModel = new UserModel(user.getUid(), avatar, imgCover, name, phone, address, rate);
                     databaseReference.child(user.getUid()).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             Toast.makeText(getActivity(), "Add User ok", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
-                else
-                {
-                    Log.d(TAG, "onComplete: "+task.getException().getMessage());
+                } else {
+                    Log.d(TAG, "onComplete: " + task.getException().getMessage());
                 }
 
             }
@@ -197,10 +203,11 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                                 e.printStackTrace();
                             }
                         }
-                        imgCover=cover;
+                        imgCover = cover;
                     }
                 }).executeAsync();
     }
+
     private void setupFacebookStuff() {
 
         // This should normally be on your application class
@@ -208,7 +215,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
 
         mAccessTokenTracker = new AccessTokenTracker() {
             @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken,AccessToken currentAccessToken) {
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 updateFacebookButtonUI();
             }
         };
@@ -221,42 +228,47 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             public void onSuccess(LoginResult loginResult) {
                 updateFacebookButtonUI();
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                
+                Log.e("checkLogin", "success");
+
             }
 
             @Override
             public void onCancel() {
 
             }
+
             @Override
             public void onError(FacebookException error) {
-                Log.d(TAG, "onError: "+error.getMessage());
+                Log.d(TAG, "onError: " + error.getMessage());
             }
         });
     }
 
-    private void updateFacebookButtonUI(){
-        if (AccessToken.getCurrentAccessToken() != null){
+    private void updateFacebookButtonUI() {
+        if (AccessToken.getCurrentAccessToken() != null) {
             // FacebookLogin.setText("Logout");
 
-        }else{
+        } else {
 //            FacebookLogin.setText("Facebook Connect");
 
         }
     }
+
     private void handleFacebookLogin() {
-        if (AccessToken.getCurrentAccessToken() != null){
+        if (AccessToken.getCurrentAccessToken() != null) {
             mLoginManager.logOut();
-        }else{
+        } else {
             mAccessTokenTracker.startTracking();
             mLoginManager.logInWithReadPermissions(getActivity(), Arrays.asList("public_profile"));
         }
 
     }
+
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -269,7 +281,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Log.d(TAG, "onComplete: "+user.getDisplayName());
+                            Log.d(TAG, "onComplete: " + user.getDisplayName());
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -279,6 +291,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                     }
                 });
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -292,7 +305,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.d(TAG, "onActivityResult: "+e.getMessage());
+                Log.d(TAG, "onActivityResult: " + e.getMessage());
 
             }
         }
