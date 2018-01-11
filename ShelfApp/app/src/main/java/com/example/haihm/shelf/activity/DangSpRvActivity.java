@@ -15,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -38,8 +40,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DangSpRvActivity extends AppCompatActivity {
     private static final String TAG = "DangSpRvActivity";
@@ -98,6 +103,8 @@ public class DangSpRvActivity extends AppCompatActivity {
         //
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("RaoVat");
+        //format giá sản phẩm
+        etgiaSP.addTextChangedListener(onTextChangedListener());
 
         btRaoBan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,12 +115,12 @@ public class DangSpRvActivity extends AppCompatActivity {
     }
 
     private void DangSp() {
-        double giaSP = Double.parseDouble(etgiaSP.getText().toString());
+        double giaSP = Double.parseDouble(etgiaSP.getText().toString().replaceAll(",",""));
         String loaiSP = spLoaiSP.getSelectedItem().toString();
         SanPhamRaoVat sanPhamRaoVat = new SanPhamRaoVat(userModel.id,etTenSP.getText().toString(),lanhSP,
                 giaSP,
                 etMoTaSP.getText().toString(),loaiSP,
-                userModel.hoten,userModel.sdt,userModel.diaC);
+                userModel.hoten,userModel.sdt,etDiaC.getText().toString());
 
         databaseReference.child(loaiSP).push().setValue(sanPhamRaoVat);
     }
@@ -125,6 +132,7 @@ public class DangSpRvActivity extends AppCompatActivity {
     @Subscribe(sticky = true)
     public void OnReceivedOnClickAddSanPhamEvent(OnClickAddSanPhamEvent onClickAddSanPhamEvent){
         userModel = onClickAddSanPhamEvent.userModel;
+        etDiaC.setText(userModel.diaC);
     }
     private void selectFuntion() {
         final String[] item = {"Chụp ảnh", "Mở Bộ sưu tập", "Huỷ"};
@@ -197,5 +205,43 @@ public class DangSpRvActivity extends AppCompatActivity {
             }
 
         }
+    }
+    private TextWatcher onTextChangedListener(){
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                etgiaSP.removeTextChangedListener(this);
+                try {
+                    String tmp = editable.toString();
+
+                    Long longVar;
+                    if(tmp.contains(",")){
+                        tmp = tmp.replaceAll(",","");
+                    }
+                    longVar = Long.parseLong(tmp);
+
+                    DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+                    decimalFormat.applyPattern("#,###,###");
+
+                    String formatTmp = decimalFormat.format(longVar);
+
+                    etgiaSP.setText(formatTmp);
+                    etgiaSP.setSelection(etgiaSP.getText().length());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                etgiaSP.addTextChangedListener(this);
+            }
+        };
     }
 }
