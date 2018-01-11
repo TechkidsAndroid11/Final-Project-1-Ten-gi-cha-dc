@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.haihm.shelf.model.UserModel;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -44,6 +46,8 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -66,7 +70,12 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
     FirebaseAuth mAuth;
     LoginManager mLoginManager;
     Button btnLogin,btnLoginGG;
-
+    public String cover,name,phone,address;
+    String avatar;
+    UserModel.Rate rate;
+    String imgCover="";
+    DatabaseReference databaseReference;
+    FirebaseDatabase firebaseDatabase;
     public LoginFragment() {
         // Required empty public constructor
 
@@ -90,6 +99,8 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         setupFacebookStuff();
         updateFacebookButtonUI();
         mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("UserInfo");
         // xin các quyền cơ bản của user
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -122,9 +133,19 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 if(task.isSuccessful())
                 {
                     FirebaseUser user = task.getResult().getUser();
-                    Log.d(TAG, "onComplete: "+user.getDisplayName());
-
                     Toast.makeText(getActivity(), "OKKKKKKKK", Toast.LENGTH_SHORT).show();
+                    getCover();
+                    Log.d(TAG, "onComplete: "+imgCover);
+                    avatar= String.valueOf(user.getPhotoUrl());
+                    name = user.getDisplayName();
+                    phone = user.getPhoneNumber();
+                    UserModel userModel = new UserModel(user.getUid(),avatar,imgCover,name,phone,address,rate);
+                    databaseReference.child(user.getUid()).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(getActivity(), "Add User ok", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 else
                 {
@@ -135,7 +156,49 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         });
     }
 
+    private void getCover() {
 
+        Bundle params = new Bundle();
+        params.putString("fields", "cover");
+        GraphRequestAsyncTask graphRequestAsyncTask = new GraphRequest(AccessToken.getCurrentAccessToken(), "me", params, HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        if (response != null) {
+                            String userDetail = response.getRawResponse();
+                            FacebookSdk.addLoggingBehavior(LoggingBehavior.REQUESTS);
+                            try {
+                                JSONObject jsonObject = new JSONObject(userDetail);
+                                if (jsonObject.has("cover")) {
+                                    String getInitialCover = jsonObject.getString("cover");
+
+                                    if (getInitialCover.equals("null")) {
+                                        jsonObject = null;
+                                    } else {
+                                        JSONObject JOCover = jsonObject.optJSONObject("cover");
+
+                                        if (JOCover.has("source")) {
+
+                                            cover = JOCover.getString("source");
+                                        } else {
+                                            cover = null;
+                                        }
+                                    }
+                                } else {
+                                    cover = null;
+                                }
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        imgCover=cover;
+                    }
+                }).executeAsync();
+    }
     private void setupFacebookStuff() {
 
         // This should normally be on your application class
@@ -155,7 +218,6 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
             @Override
             public void onSuccess(LoginResult loginResult) {
                 updateFacebookButtonUI();
-                Log.d(TAG, "onSuccess: ");
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 
             }
