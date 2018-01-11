@@ -1,4 +1,4 @@
-package com.example.haihm.shelf;
+package com.example.haihm.shelf.fragments;
 
 
 import android.annotation.SuppressLint;
@@ -56,6 +56,8 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
+
+import com.example.haihm.shelf.R;
 
 
 /**
