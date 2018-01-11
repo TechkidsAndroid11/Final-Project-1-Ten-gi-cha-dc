@@ -32,4 +32,18 @@ public class SanPhamRaoVat {
 
     public SanPhamRaoVat() {
     }
+
+    @Override
+    public String toString() {
+        return "SanPhamRaoVat{" +
+                "idNB='" + idNB + '\'' +
+                ", tenSP='" + tenSP + '\'' +
+                ", giaSP=" + giaSP +
+                ", motaSP='" + motaSP + '\'' +
+                ", loaiSP='" + loaiSP + '\'' +
+                ", hoTenNB='" + hoTenNB + '\'' +
+                ", sdtNB='" + sdtNB + '\'' +
+                ", diaCNB='" + diaCNB + '\'' +
+                '}';
+    }
 }
