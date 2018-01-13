@@ -85,14 +85,20 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+        getCover();
         setupUI(view);
 
         return view;
     }
 
     public void setupUI(View view) {
+<<<<<<< HEAD:ShelfApp/app/src/main/java/com/example/haihm/shelf/LoginFragment.java
+
+        btnLogin = view.findViewById(R.id.bt_register_with_facebook);
+=======
         btnLoginApp = view.findViewById(R.id.bt_login);
         btnLoginFacebook = view.findViewById(R.id.bt_register_with_facebook);
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/java/com/example/haihm/shelf/fragments/LoginFragment.java
         mLoginManager = LoginManager.getInstance();
         callbackManager = CallbackManager.Factory.create();
         btnLoginGoogle = view.findViewById(R.id.bt_register_with_mail);
@@ -101,12 +107,12 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
         mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("UserInfo");
-        // xin các quyền cơ bản của user
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        // kết nối với GOogle APi Client
+
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .enableAutoManage(getActivity(), this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
@@ -142,6 +148,15 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                 if (task.isSuccessful()) {
                     FirebaseUser user = task.getResult().getUser();
                     Toast.makeText(getActivity(), "OKKKKKKKK", Toast.LENGTH_SHORT).show();
+<<<<<<< HEAD:ShelfApp/app/src/main/java/com/example/haihm/shelf/LoginFragment.java
+
+                    Log.d(TAG, "onComplete: "+imgCover);
+                    avatar= String.valueOf(user.getPhotoUrl());
+                    name = user.getDisplayName();
+                    phone = user.getPhoneNumber();
+                    Log.d(TAG, "onCompleted: cover2:"+cover);
+                    UserModel userModel = new UserModel(user.getUid(),avatar,imgCover,name,phone,address,rate);
+=======
                     Intent intent = new Intent(getActivity(), MainActivity.class);
                     startActivity(intent);
                     getCover();
@@ -150,6 +165,7 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                     name = user.getDisplayName();
                     phone = user.getPhoneNumber();
                     UserModel userModel = new UserModel(user.getUid(), avatar, imgCover, name, phone, address, rate);
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/java/com/example/haihm/shelf/fragments/LoginFragment.java
                     databaseReference.child(user.getUid()).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -196,14 +212,18 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                                     cover = null;
                                 }
 
-
+                                Log.d(TAG, "onCompleted: cover1:"+cover);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
+<<<<<<< HEAD:ShelfApp/app/src/main/java/com/example/haihm/shelf/LoginFragment.java
+
+=======
                         imgCover = cover;
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/java/com/example/haihm/shelf/fragments/LoginFragment.java
                     }
                 }).executeAsync();
     }
@@ -278,12 +298,22 @@ public class LoginFragment extends Fragment implements GoogleApiClient.OnConnect
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+<<<<<<< HEAD:ShelfApp/app/src/main/java/com/example/haihm/shelf/LoginFragment.java
+                            avatar= String.valueOf(user.getPhotoUrl());
+                            name = user.getDisplayName();
+                            phone = user.getPhoneNumber();
+                            UserModel userModel = new UserModel(user.getUid(),avatar,imgCover,name,phone,address,rate);
+                            databaseReference.child(user.getUid()).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Toast.makeText(getActivity(), "Add User ok", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+=======
                             Log.d(TAG, "onComplete: " + user.getDisplayName());
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/java/com/example/haihm/shelf/fragments/LoginFragment.java
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                         }
 
