@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -33,11 +35,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DangSpDGActivity extends AppCompatActivity {
     private static final String TAG = "DangSpDGActivity";
@@ -91,7 +96,10 @@ public class DangSpDGActivity extends AppCompatActivity {
         //
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("DauGia");
-
+        //format GiaSP va bướcG
+        etBuocG.addTextChangedListener(onTextChangedListener(etBuocG));
+        etgiaSP.addTextChangedListener(onTextChangedListener(etgiaSP));
+        //
         btDG.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,8 +109,8 @@ public class DangSpDGActivity extends AppCompatActivity {
     }
 
     private void DangSPDG() {
-        double giaSP = Double.parseDouble(etgiaSP.getText().toString());
-        double buocG = Double.parseDouble(etBuocG.getText().toString());
+        double giaSP = Double.parseDouble(etgiaSP.getText().toString().replaceAll(",",""));
+        double buocG = Double.parseDouble(etBuocG.getText().toString().replaceAll(",",""));
         String loaiSP = spLoaiSP.getSelectedItem().toString();
         int tgianDG = 0;
         if(rb_3h.isChecked()) tgianDG = 3;
@@ -111,9 +119,9 @@ public class DangSpDGActivity extends AppCompatActivity {
         if(rb_1ngay.isChecked()) tgianDG = 24;
         SanPhamDauGia sanPhamDauGia = new SanPhamDauGia(userModel.id,etTenSP.getText().toString(),
                 lanhSP,giaSP,
-                etMoTaSP.getText().toString(),
-                userModel.hoten,userModel.sdt,userModel.diaC,
-                loaiSP,buocG,0.0,tgianDG,new SanPhamDauGia.NguoiMua());
+                etMoTaSP.getText().toString(),loaiSP,
+                userModel.hoten,userModel.sdt,etDiaC.getText().toString(),
+                buocG,giaSP,tgianDG,new SanPhamDauGia.NguoiMua());
 
         databaseReference.child(loaiSP).push().setValue(sanPhamDauGia);
         Log.d(TAG, "DangSPDG: ");
@@ -126,6 +134,7 @@ public class DangSpDGActivity extends AppCompatActivity {
     @Subscribe(sticky = true)
     public void OnReceivedOnClickAddSanPhamEvent(OnClickAddSanPhamEvent onClickAddSanPhamEvent){
         userModel = onClickAddSanPhamEvent.userModel;
+        etDiaC.setText(userModel.diaC);
     }
     private void selectFuntion() {
         final String[] item = {"Chụp ảnh", "Mở Bộ sưu tập", "Huỷ"};
@@ -198,5 +207,44 @@ public class DangSpDGActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private TextWatcher onTextChangedListener(final EditText editText){
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                editText.removeTextChangedListener(this);
+                try {
+                    String tmp = editable.toString();
+
+                    Long longVar;
+                    if(tmp.contains(",")){
+                        tmp = tmp.replaceAll(",","");
+                    }
+                    longVar = Long.parseLong(tmp);
+
+                    DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+                    decimalFormat.applyPattern("#,###,###");
+
+                    String formatTmp = decimalFormat.format(longVar);
+                    editText.setText(formatTmp);
+                    editText.setSelection(editText.getText().length());
+
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                editText.addTextChangedListener(this);
+            }
+        };
     }
 }
