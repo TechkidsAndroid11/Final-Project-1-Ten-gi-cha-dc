@@ -1,6 +1,7 @@
 package com.example.haihm.shelf;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -20,7 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.haihm.shelf.model.UserModel;
 import com.example.haihm.shelf.utils.ImageUtils;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
@@ -33,6 +36,7 @@ import static android.app.Activity.RESULT_OK;
  * A simple {@link Fragment} subclass.
  */
 public class MainRegisterFragment extends Fragment {
+    private static final String TAG = "MainRegisterFragment";
     public EditText etUsername,etPassword,etVerifyPassword;
     TextView tvNotify;
     Button btRegister;
@@ -41,8 +45,12 @@ public class MainRegisterFragment extends Fragment {
     Uri uri;
     String base64;
     Bitmap bitmap;
-    public MainRegisterFragment() {
+    FirebaseUser user;
+    @SuppressLint("ValidFragment")
+    public MainRegisterFragment(FirebaseUser user) {
         // Required empty public constructor
+        this.user=user;
+
     }
 
 
@@ -99,10 +107,16 @@ public class MainRegisterFragment extends Fragment {
     }
     public void registerAccount()
     {
+        String id = user.getUid();
+        String address="";
+        String cover="";
+        String phone = user.getPhoneNumber();
         String user = etUsername.getText().toString();
         String password = etPassword.getText().toString();
         String verifyPass = etVerifyPassword.getText().toString();
         String avatar = String.valueOf(uri);
+
+        UserModel userModel = new UserModel(id,avatar,cover,user,phone,address,null;
         Toast.makeText(getActivity(), "OKKK", Toast.LENGTH_SHORT).show();
     }
     private void cameraIntent() {

@@ -50,8 +50,8 @@ public class RegisterFragment extends Fragment {
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                sendCode();
-                Utils.openFragment(getFragmentManager(),R.id.rl_main,new MainRegisterFragment());
+                sendCode();
+
 
             }
         });
@@ -82,8 +82,8 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
                 Log.d(TAG, "onVerificationCompleted: ");
-               // tvStatus.setText("Sign In");
-                signInWithPhoneAuthCredential(credential);
+
+
             }
 
             @Override
@@ -96,20 +96,9 @@ public class RegisterFragment extends Fragment {
                 Log.d(TAG, "onCodeSent: ");
                 phoneVerificationId = verificationId;
                 resendToken = token;
-
+                Utils.openFragment(getFragmentManager(),R.id.rl_main,new VerifyPhoneFragment(phoneVerificationId));
             }
         };
     }
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
-        fbAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful())
-                {
 
-                    FirebaseUser user = task.getResult().getUser();
-                }
-            }
-        });
-    }
 }

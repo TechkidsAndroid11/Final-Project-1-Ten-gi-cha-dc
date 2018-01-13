@@ -38,6 +38,11 @@ public class UserModel {
     public class Rate {
         public int tongD;
         public int tongVote;
+
+        public Rate(int tongD, int tongVote) {
+            this.tongD = tongD;
+            this.tongVote = tongVote;
+        }
     }
 
     public String getId() {
