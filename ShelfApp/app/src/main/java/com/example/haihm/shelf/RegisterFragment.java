@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.haihm.shelf.utils.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
@@ -48,7 +50,9 @@ public class RegisterFragment extends Fragment {
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendCode();
+//                sendCode();
+                Utils.openFragment(getFragmentManager(),R.id.rl_main,new MainRegisterFragment());
+
             }
         });
         return view;
@@ -69,6 +73,7 @@ public class RegisterFragment extends Fragment {
                 TimeUnit.SECONDS,   // Unit of timeout
                 getActivity(),               // Activity (for callback binding)
                 verificationCallbacks);        // OnVerificationStateChangedCallbacks
+        Toast.makeText(getActivity(), "Waiting", Toast.LENGTH_SHORT).show();
 
     }
     private void setupVerificationCallbacks() {

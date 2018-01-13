@@ -19,13 +19,14 @@
         android:layout_below="@+id/iv_cover"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-60dp" />
+
     <ImageView
-        android:layout_margin="16dp"
-        android:layout_below="@id/iv_cover"
         android:id="@+id/iv_setting"
-        android:src="@drawable/ic_settings_applications_black_24dp"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_below="@id/iv_cover"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_settings_applications_black_24dp" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -38,66 +39,133 @@
         android:textColor="#000"
         android:textSize="18dp" />
 
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/rl_setting"-->
-    <!--android:layout_marginLeft="16dp"-->
-    <!--android:layout_marginTop="16dp"-->
-    <!--android:layout_below="@id/tv_name"-->
-    <!--android:layout_width="300dp"-->
-    <!--android:layout_height="60dp">-->
-    <!--<ImageView-->
-    <!--android:id="@+id/iv_setting"-->
-    <!--android:src="@drawable/ic_settings_applications_black_24dp"-->
-    <!--android:layout_width="50dp"-->
-    <!--android:layout_height="50dp" />-->
-    <!--<TextView-->
-    <!--android:textColor="#0066ff"-->
-    <!--android:textSize="18dp"-->
-    <!--android:layout_marginLeft="16dp"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:layout_toRightOf="@+id/iv_setting"-->
-    <!--android:text="Thiết lập tài khoản"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content" />-->
 
-    <!--</RelativeLayout>-->
     <RelativeLayout
         android:id="@+id/rl_buy"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/tv_name"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="16dp">
+
         <Button
-            android:text="Rao bán sản phẩm"
             android:id="@+id/btBuy"
             android:layout_width="200dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:text="Rao bán sản phẩm" />
+
         <Button
-            android:text="Tạo Phiên đấu giá"
             android:id="@+id/btDauGia"
             android:layout_width="200dp"
+            android:layout_height="40dp"
             android:layout_toRightOf="@+id/btBuy"
-            android:layout_height="40dp" />
+            android:text="Tạo Phiên đấu giá" />
     </RelativeLayout>
+
     <TextView
-        android:textColor="#000"
-        android:textSize="18dp"
-        android:layout_marginTop="16dp"
-        android:text="Lịch sử"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/rl_buy"
         android:id="@+id/tv_history"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <RelativeLayout
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="80dp">
-        <LinearLayout
-            android:weightSum="4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_buy"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Lịch sử"
+        android:textColor="#000"
+        android:textSize="18dp" />
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_above="@+id/rl_mini"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_history">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/rl_mini"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <ImageView
+                android:id="@+id/iv_buy"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_add_shopping_cart_black_24dp" />
+
+            <ImageView
+                android:id="@+id/iv_daugia"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_gavel_black_24dp" />
+
+            <ImageView
+                android:id="@+id/iv_chat"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_chat_black_24dp" />
+
+            <ImageView
+                android:id="@+id/iv_me"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_person_black_24dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:weightSum="4">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Giao vặt"
+                android:textColor="#231e1e"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Đấu giá"
+                android:textColor="#231e1e"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Chat"
+                android:textColor="#231e1e"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Tôi"
+                android:textColor="#231e1e"
+                android:textSize="16dp"
+                android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>
