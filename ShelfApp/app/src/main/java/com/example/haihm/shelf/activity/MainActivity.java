@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     SearchView searchView;
     TabLayout tlBottomBar;
     ViewPager vpMain;
-    ConstraintLayout constraintLayout;
+    ConstraintLayout clAppBar, clAuction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupUI() {
         tlBottomBar = findViewById(R.id.tl_bottom_bar);
-        constraintLayout = findViewById(R.id.constraintLayout);
+        clAppBar = findViewById(R.id.cl_app_bar);
         vpMain = findViewById(R.id.vp_main_activity);
+        clAuction = findViewById(R.id.cl_auction);
 
         setupTabLayout();
         MainPagerAdapter mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
@@ -57,10 +58,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 vpMain.setCurrentItem(tab.getPosition());
+
                 if(tab.getPosition() == 2){
-                    constraintLayout.setVisibility(View.GONE);
+                    clAppBar.setVisibility(View.GONE);
                 }else {
-                    constraintLayout.setVisibility(View.VISIBLE);
+                    clAppBar.setVisibility(View.VISIBLE);
+                }
+
+                if (tab.getPosition() == 1){
+                    clAuction.setVisibility(View.VISIBLE);
+                } else {
+                    clAuction.setVisibility(View.GONE);
                 }
             }
 

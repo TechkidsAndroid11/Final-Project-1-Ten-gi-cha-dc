@@ -43,7 +43,6 @@ public class SanPhamRaoVat {
                 ", loaiSP='" + loaiSP + '\'' +
                 ", hoTenNB='" + hoTenNB + '\'' +
                 ", sdtNB='" + sdtNB + '\'' +
-                ", diaCNB='" + diaCNB + '\'' +
                 '}';
     }
 }
