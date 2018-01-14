@@ -1,4 +1,4 @@
-package com.example.haihm.shelf;
+package com.example.haihm.shelf.fragments;
 
 
 import android.annotation.SuppressLint;
@@ -35,6 +35,8 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 import static android.app.Activity.RESULT_OK;
 
+
+import com.example.haihm.shelf.R;
 
 
 /**

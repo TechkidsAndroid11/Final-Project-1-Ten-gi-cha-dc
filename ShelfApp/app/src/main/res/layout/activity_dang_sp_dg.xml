@@ -66,6 +66,8 @@
             android:layout_marginTop="18dp"/>
         <EditText
             android:id="@+id/et_gia"
+            android:inputType="number"
+            android:hint="đ"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
@@ -80,6 +82,8 @@
             android:layout_marginTop="18dp"/>
         <EditText
             android:id="@+id/et_buoc_gia"
+            android:inputType="number"
+            android:hint="đ"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.haihm.shelf.ProifileFragment">
+    tools:context="com.example.haihm.shelf.fragments.ProfileFragment">
 
     <ImageView
         android:id="@+id/iv_cover"
@@ -24,8 +24,15 @@
         android:id="@+id/iv_setting"
         android:layout_width="50dp"
         android:layout_height="50dp"
+<<<<<<< HEAD:ShelfApp/app/src/main/res/layout/fragment_proifile.xml
         android:layout_below="@id/iv_cover"
         android:layout_margin="16dp"
+=======
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/res/layout/fragment_profile.xml
         android:src="@drawable/ic_settings_applications_black_24dp" />
 
     <TextView
@@ -39,8 +46,14 @@
         android:textColor="#000"
         android:textSize="18dp" />
 
+<<<<<<< HEAD:ShelfApp/app/src/main/res/layout/fragment_proifile.xml
 
     <RelativeLayout
+=======
+    <LinearLayout
+        android:weightSum="10"
+        android:orientation="horizontal"
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/res/layout/fragment_profile.xml
         android:id="@+id/rl_buy"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -48,18 +61,31 @@
         android:layout_marginTop="16dp">
 
         <Button
+<<<<<<< HEAD:ShelfApp/app/src/main/res/layout/fragment_proifile.xml
+=======
+            android:layout_weight="5"
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/res/layout/fragment_profile.xml
             android:id="@+id/btBuy"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:text="Rao bán sản phẩm" />
 
         <Button
+<<<<<<< HEAD:ShelfApp/app/src/main/res/layout/fragment_proifile.xml
             android:id="@+id/btDauGia"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:layout_toRightOf="@+id/btBuy"
             android:text="Tạo Phiên đấu giá" />
     </RelativeLayout>
+=======
+            android:layout_weight="5"
+            android:id="@+id/btDauGia"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:text="Tạo Phiên đấu giá" />
+    </LinearLayout>
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/res/layout/fragment_profile.xml
 
     <TextView
         android:id="@+id/tv_history"
@@ -72,6 +98,7 @@
         android:textColor="#000"
         android:textSize="18dp" />
 
+<<<<<<< HEAD:ShelfApp/app/src/main/res/layout/fragment_proifile.xml
     <android.support.v7.widget.RecyclerView
         android:layout_above="@+id/rl_mini"
         android:layout_width="match_parent"
@@ -82,10 +109,14 @@
 
     <RelativeLayout
         android:id="@+id/rl_mini"
+=======
+    <RelativeLayout
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/res/layout/fragment_profile.xml
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_alignParentBottom="true">
 
+<<<<<<< HEAD:ShelfApp/app/src/main/res/layout/fragment_proifile.xml
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -156,6 +187,12 @@
                 android:textColor="#231e1e"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+=======
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4">
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6:ShelfApp/app/src/main/res/layout/fragment_profile.xml
 
             <TextView
                 android:layout_width="0dp"

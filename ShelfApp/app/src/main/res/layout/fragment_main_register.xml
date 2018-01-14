@@ -2,9 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:background="#fff"
     tools:context="com.example.haihm.shelf.MainRegisterFragment">
 
+=======
+    tools:context="com.example.haihm.shelf.fragments.MainRegisterFragment">
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6
     <RelativeLayout
         android:id="@+id/rl_header"
         android:layout_width="match_parent"

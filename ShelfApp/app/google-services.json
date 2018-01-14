@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "346259009996-j9ancv7um4oitbovqq8gdv914ncjsul3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.haihm.shelf",
+            "certificate_hash": "b787636e96b3632e53a147e48212853b39863ca2"
+          }
+        },
+        {
           "client_id": "346259009996-gm7askbi78kvffe151g5691sejv4t274.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

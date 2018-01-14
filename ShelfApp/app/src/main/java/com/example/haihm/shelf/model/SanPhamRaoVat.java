@@ -15,10 +15,10 @@ public class SanPhamRaoVat {
     public String loaiSP;
     public String hoTenNB;
     public String sdtNB;
-    public String diaCNB;
+    public String diaGD;
 
     public SanPhamRaoVat(String idNB, String tenSP, List<String> anhSP, double giaSP,
-                         String motaSP, String loaiSP, String hoTenNB, String sdtNB, String diaCNB) {
+                         String motaSP, String loaiSP, String hoTenNB, String sdtNB, String diaGD) {
         this.idNB = idNB;
         this.tenSP = tenSP;
         this.anhSP = anhSP;
@@ -27,7 +27,7 @@ public class SanPhamRaoVat {
         this.loaiSP = loaiSP;
         this.hoTenNB = hoTenNB;
         this.sdtNB = sdtNB;
-        this.diaCNB = diaCNB;
+        this.diaGD = diaGD;
     }
 
     public SanPhamRaoVat() {

@@ -16,8 +16,13 @@
         android:theme="@style/AppTheme">
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
+<<<<<<< HEAD
         <activity android:name=".MainActivity">
 
+=======
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+>>>>>>> 49075341e640fb105e6bbbfbbdce76255aa8f0b6
         </activity>
 
         <activity android:name=".activity.DangSpRvActivity"
@@ -25,9 +30,6 @@
 
         </activity>
         <activity android:name=".activity.DangSpDGActivity">
-
-        </activity>
-        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,6 +43,15 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.LoginActivity">
+
+        </activity>
+
+        <activity android:name=".activity.MainActivity">
+
+        </activity>
+
+
         <provider
             android:authorities="${applicationId}.provider"
             android:name="android.support.v4.content.FileProvider"

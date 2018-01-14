@@ -1,4 +1,4 @@
-package com.example.haihm.shelf;
+package com.example.haihm.shelf.fragments;
 
 
 import android.os.Bundle;
@@ -23,6 +23,8 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
+
+import com.example.haihm.shelf.R;
 
 
 /**

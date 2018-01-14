@@ -1,4 +1,4 @@
-package com.example.haihm.shelf;
+package com.example.haihm.shelf.activity;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.util.Log;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+
+import com.example.haihm.shelf.adapters.LoginPagerAdapter;
+import com.example.haihm.shelf.R;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
