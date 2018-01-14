@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,11 @@ import android.widget.Toast;
 
 import com.example.haihm.shelf.model.UserModel;
 import com.example.haihm.shelf.utils.ImageUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
@@ -35,6 +40,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressLint("ValidFragment")
 public class MainRegisterFragment extends Fragment {
     private static final String TAG = "MainRegisterFragment";
     public EditText etUsername,etPassword,etVerifyPassword;
@@ -46,6 +52,8 @@ public class MainRegisterFragment extends Fragment {
     String base64;
     Bitmap bitmap;
     FirebaseUser user;
+    DatabaseReference databaseReference;
+    FirebaseDatabase firebaseDatabase;
     @SuppressLint("ValidFragment")
     public MainRegisterFragment(FirebaseUser user) {
         // Required empty public constructor
@@ -73,6 +81,8 @@ public class MainRegisterFragment extends Fragment {
         ivAvatar =view.findViewById(R.id.iv_avatar);
         rlAvatar = view.findViewById(R.id.rl_avatar);
         tvNotify = view.findViewById(R.id.tv_notify);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference().child("UserInfo");
     }
     public void addListener()
     {
@@ -111,13 +121,18 @@ public class MainRegisterFragment extends Fragment {
         String address="";
         String cover="";
         String phone = user.getPhoneNumber();
-        String user = etUsername.getText().toString();
+        String userName = etUsername.getText().toString();
         String password = etPassword.getText().toString();
         String verifyPass = etVerifyPassword.getText().toString();
         String avatar = String.valueOf(uri);
 
-        UserModel userModel = new UserModel(id,avatar,cover,user,phone,address,null;
-        Toast.makeText(getActivity(), "OKKK", Toast.LENGTH_SHORT).show();
+        UserModel userModel = new UserModel(id,avatar,cover,userName,phone,address,null);
+        databaseReference.child(user.getUid()).setValue(userModel).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(getActivity(), "Add User ok", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     private void cameraIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

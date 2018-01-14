@@ -52,7 +52,6 @@ public class RegisterFragment extends Fragment {
             public void onClick(View view) {
                 sendCode();
 
-
             }
         });
         return view;
@@ -81,9 +80,10 @@ public class RegisterFragment extends Fragment {
 
             @Override
             public void onVerificationCompleted(PhoneAuthCredential credential) {
-                Log.d(TAG, "onVerificationCompleted: ");
 
 
+               // tvStatus.setText("Sign In");
+                signInWithPhoneAuthCredential(credential);
             }
 
             @Override
@@ -100,5 +100,20 @@ public class RegisterFragment extends Fragment {
             }
         };
     }
+    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+        fbAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful())
+                {
+                    FirebaseUser user = task.getResult().getUser();
+                    //Utils.openFragment(getFragmentManager(),R.id.rl_main,R.l);
+                }
+            }
+        });
+    }
+    public void signInWithUserAndPassword(PhoneAuthCredential credential)
+    {
 
+    }
 }

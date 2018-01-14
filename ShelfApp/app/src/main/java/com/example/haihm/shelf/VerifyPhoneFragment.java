@@ -80,17 +80,21 @@ public class VerifyPhoneFragment extends Fragment {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(phoneVerificationId,code);
         signInWithPhoneAuthCredential(credential);
     }
-    private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
+    private void signInWithPhoneAuthCredential(final PhoneAuthCredential credential) {
         fbAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful())
                 {
+
+                    Log.d(TAG, "signInWithPhoneAuthCredential: "+credential);
+                    Log.d(TAG, "signInWithPhoneAuthCredential: "+credential.getProvider());
+                    Log.d(TAG, "onVerificationCompleted: "+credential.getSmsCode());
                     FirebaseUser user = task.getResult().getUser();
                     Utils.openFragment(getFragmentManager(),R.id.rl_main,new MainRegisterFragment(user));
                 }
             }
         });
     }
-  
+
 }
